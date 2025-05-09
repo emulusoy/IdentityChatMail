@@ -10,5 +10,6 @@ namespace IdentityChatMail.Context
         {
             optionsBuilder.UseSqlServer("Server=MULUSOY\\SQLEXPRESS01;Initial Catalog=LessonTwoDb;integrated Security=true; trust server certificate=true");
         }
+        public DbSet<Message>   Messages { get; set; }
     }
 }

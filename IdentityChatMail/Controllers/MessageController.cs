@@ -1,5 +1,7 @@
-﻿using IdentityChatMail.Context;
+﻿using System.Threading.Tasks;
+using IdentityChatMail.Context;
 using IdentityChatMail.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityChatMail.Controllers
@@ -7,15 +9,26 @@ namespace IdentityChatMail.Controllers
     public class MessageController : Controller
     {
         private readonly MailContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public MessageController(MailContext context)
+        public MessageController(MailContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+        }
+        public async Task<IActionResult> Profile()
+        {
+            var values = await _userManager.FindByNameAsync(User.Identity.Name);//giris yapan kullanicinin kulllanici adini aldik burada
+            ViewBag.v1 = values.Name +" "+values.Surname;
+            ViewBag.v1 = values.Email;
+            return View();    
         }
 
-        public IActionResult Inbox()
+        public async Task<IActionResult> Inbox()
         {
-            return View();
+            var values = await _userManager.FindByNameAsync(User.Identity.Name);
+            var messagelist=_context.Messages.Where(x=>x.ReceiverEmail == values.Email).ToList();
+            return View(messagelist);
         }
         public IActionResult Sendbox()
         {

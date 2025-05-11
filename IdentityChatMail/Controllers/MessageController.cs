@@ -30,9 +30,12 @@ namespace IdentityChatMail.Controllers
             var messagelist=_context.Messages.Where(x=>x.ReceiverEmail == values.Email).ToList();
             return View(messagelist);
         }
-        public IActionResult Sendbox()
+        public async Task<IActionResult> Sendbox()
         {
-            return View();
+            var values=await _userManager.FindByNameAsync(User.Identity.Name);
+            string email = values.Email;
+            var sendMessageList=_context.Messages.Where(x=>x.SenderEmail == email).ToList();
+            return View(sendMessageList);
         }
         [HttpGet]
         public IActionResult CreateMessage()

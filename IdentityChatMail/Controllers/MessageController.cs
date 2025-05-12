@@ -43,8 +43,11 @@ namespace IdentityChatMail.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult CreateMessage(Message message)
+        public async Task<IActionResult> CreateMessage(Message message)
         {
+            var values = await _userManager.FindByNameAsync(User.Identity.Name);
+            var x = values.Email;
+            message.SenderEmail = x;
             message.SendDate = DateTime.Now;
             message.IsRead = false;
             _context.Messages.Add(message);

@@ -1,9 +1,9 @@
 ﻿@model IdentityChatMail.Entities.Message
 @{
-    Layout = null;
-}
 
-<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    Layout = "~/Views/Shared/_MessageLayout.cshtml";
+
+}
 
 
 <div class="container">
@@ -11,9 +11,6 @@
     <br />
     <br />
     <form method="post">
-        <label>Sender Email</label>
-        <input type="text" asp-for="SenderEmail" class="form-control" />
-        <br />
 
         <label>Receiver Email</label>
         <input type="text" asp-for="ReceiverEmail" class="form-control" />
